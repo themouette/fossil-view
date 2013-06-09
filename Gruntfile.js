@@ -27,6 +27,7 @@ module.exports = function(grunt) {
                 {expand: true, cwd: 'components/underscore', src: ['underscore.js'], dest: 'doc/samples/vendor/'},
                 {expand: true, cwd: 'components/backbone', src: ['backbone.js'], dest: 'doc/samples/vendor/'},
                 {expand: true, cwd: 'components/jquery', src: ['jquery.js'], dest: 'doc/samples/vendor/'},
+                {expand: true, cwd: 'components/jquery-color', src: ['jquery.color.js'], dest: 'doc/samples/vendor/'},
                 {expand: true, cwd: 'components/requirejs', src: ['require.js'], dest: 'doc/samples/vendor/'},
                 {expand: true, cwd: 'components/requirejs-tpl', src: ['tpl.js'], dest: 'doc/samples/vendor/'},
                 {expand: true, cwd: 'src', src: ['**/*.js'], dest: 'doc/samples/vendor/fossil-view'},
