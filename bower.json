@@ -1,0 +1,17 @@
+{
+  "name": "fossil-view",
+  "version": "0.0.0",
+  "main": "fossi-view.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "backbone": "~1.0.0",
+    "underscore": "~1.4.4",
+    "jquery": "~2.0.2",
+    "requirejs": "~2.1.6",
+    "requirejs-tpl": "latest"
+  }
+}
