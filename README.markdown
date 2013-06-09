@@ -85,7 +85,14 @@ Installation
 
 ### Using bower
 
+`bower install themouette/fossil-view`
+
 ### Using git
+
+``` sh
+$ git clone git://github.com/themouette/fossil-view.git
+$ npm install
+```
 
 Include Fossil view in your project
 -----------------------------------
@@ -144,3 +151,10 @@ In your HTML, just incude the generated script :
     </body>
 </html>
 ```
+
+Contributing
+------------
+
+To run local server, use the `npm start` command.
+
+To run test, use `grunt test` command.
