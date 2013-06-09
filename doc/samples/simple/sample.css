@@ -1,0 +1,43 @@
+/* layout */
+div {
+  margin: 0;
+}
+html,body{
+    height: 100%
+}
+body > header{
+    height: 60px;
+}
+body > header h1, body > header nav {
+    display:inline-block;
+}
+.wrap {
+    min-height: 100%;
+    position:relative;
+    margin: -60px auto -142px auto;
+    padding-top:60px;
+}
+section {
+    display: inline-block;
+    vertical-align:top;
+}
+.sidebar {
+    width: 19%;
+}
+.content {
+    width: 80%;
+}
+.wrap:after {
+    content: "";
+    display: block;
+}
+body > footer, .wrap:after {
+  /* .push must be the same height as footer */
+  height: 142px;
+}
+
+/* sidebar */
+.sidebar li {
+    list-style: none;
+    display: inline-block;
+}

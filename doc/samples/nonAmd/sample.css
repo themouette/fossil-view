@@ -1,0 +1,25 @@
+/* layout */
+* {
+  margin: 0;
+}
+html,body{
+    height: 100%
+}
+body > header{
+    height: 60px;
+}
+body > header h1, body > header nav {
+    display:inline-block;
+}
+body > section{
+    min-height: 100%;
+    position:relative;
+}
+body > section:after {
+    content: "";
+    display: block;
+}
+body > footer, body > section:after {
+  /* .push must be the same height as footer */
+  height: 142px;
+}
