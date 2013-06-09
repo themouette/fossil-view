@@ -10,12 +10,8 @@
   <script src="../components/qunit/qunit.js"></script>
   <script src="../components/requirejs/require.js"></script>
   <script type="text/javascript" charset="utf-8">
+    QUnit.config.autostart = false;
     require.config({
-        deps: [
-            './composite',
-            './collection',
-            './region'
-        ],
         baseUrl: '',
         paths: {
             'fossil/view': '../src',
@@ -27,6 +23,13 @@
             'underscore': {exports: '_'},
             'backbone': { deps: ['underscore', 'jquery'], exports: 'Backbone'}
         }
+    });
+    require([
+        './composite',
+        './collection',
+        './region'
+    ], function () {
+        QUnit.start();
     });
   </script>
 </body>
