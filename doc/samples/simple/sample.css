@@ -1,21 +1,20 @@
 /* layout */
-div {
+html, body, div {
   margin: 0;
 }
 html,body{
     height: 100%
 }
-body > header{
+.wrap > header{
     height: 60px;
 }
-body > header h1, body > header nav {
+.wrap > header h1, .wrap > header nav {
     display:inline-block;
 }
 .wrap {
     min-height: 100%;
     position:relative;
-    margin: -60px auto -142px auto;
-    padding-top:60px;
+    margin-bottom: -60px;
 }
 section {
     display: inline-block;
@@ -27,13 +26,10 @@ section {
 .content {
     width: 80%;
 }
-.wrap:after {
-    content: "";
-    display: block;
-}
-body > footer, .wrap:after {
-  /* .push must be the same height as footer */
-  height: 142px;
+body > footer {
+    height: 59px;
+    text-align: center;
+    border-top: 1px solid transparent;
 }
 
 /* sidebar */
