@@ -12,6 +12,7 @@
     "underscore": "~1.4.4",
     "jquery": "~2.0.2",
     "requirejs": "~2.1.6",
-    "requirejs-tpl": "latest"
+    "requirejs-tpl": "latest",
+    "qunit": "~1.11.0"
   }
 }
