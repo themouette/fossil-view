@@ -82,14 +82,14 @@ users.add({name: "Walter"}, {at: 1});
 Installation
 ------------
 
-### Using `bower`
+##### Using `bower`
 
-  bower install themouette/fossil-view
+    bower install themouette/fossil-view
 
-### Using `git`
+##### Using `git`
 
-  $ git clone git://github.com/themouette/fossil-view.git
-  $ npm install
+    $ git clone git://github.com/themouette/fossil-view.git
+    $ npm install
 
 
 Include Fossil View In Your Project
