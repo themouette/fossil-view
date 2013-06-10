@@ -3,13 +3,13 @@ requirejs.config({
     // load foundation and application kernel
     baseUrl: './',
     paths: {
-        "templates": "templates",
-        "jquery": "../vendor/jquery",
-        "jquery.color": "../vendor/jquery.color",
-        "underscore": "../vendor/underscore",
-        "backbone": "../vendor/backbone",
-        "tpl": "../vendor/tpl",
-        "fossil/view": "../vendor/fossil-view"
+        "templates": "./templates",
+        "jquery": "../../components/jquery/jquery",
+        "jquery.color": "../../components/jquery-color/jquery.color",
+        "underscore": "../../components/underscore/underscore",
+        "backbone": "../../components/backbone/backbone",
+        "tpl": "../../components/requirejs-tpl/tpl",
+        "fossil/view": "../../src"
     },
     shim: {
         'underscore': { exports: '_' },

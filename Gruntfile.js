@@ -40,16 +40,34 @@ module.exports = function(grunt) {
       }
     },
     copy: {
+        vendors: {
+            files: [
+                // copy dependencies for samples
+                {expand: true, cwd: 'components', src: [
+                        'qunit/qunit.css',
+                        'qunit/qunit.js',
+                        'underscore/underscore.js',
+                        'backbone/backbone.js',
+                        'jquery/jquery.js',
+                        'jquery-color/jquery.color.js',
+                        'requirejs/require.js',
+                        'requirejs-tpl/tpl.js'
+                    ], dest: 'doc/components/'},
+                {expand: true, src: ['<%= pkg.name %>.js'], dest: 'doc/'},
+                {expand: true, cwd: 'src', src: ['**/*.js'], dest: 'doc/src/'}
+
+            ]
+        },
         samples: {
             files: [
-                {expand: true, cwd: 'components/underscore', src: ['underscore.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'components/backbone', src: ['backbone.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'components/jquery', src: ['jquery.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'components/jquery-color', src: ['jquery.color.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'components/requirejs', src: ['require.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'components/requirejs-tpl', src: ['tpl.js'], dest: 'samples/vendor/'},
-                {expand: true, cwd: 'src', src: ['**/*.js'], dest: 'samples/vendor/fossil-view'},
-                {src: ['<%= pkg.name %>.js'], dest: 'samples/vendor/'}
+                // copy samples to gh-pages
+                {expand: true, cwd: 'samples', src: ['**'], dest: 'doc/samples/'}
+            ]
+        },
+        tests: {
+            files: [
+                // copy tests to gh-pages
+                {expand: true, cwd: 'tests', src: ['**'], dest: 'doc/tests/'}
             ]
         }
     }
