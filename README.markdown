@@ -63,6 +63,7 @@ var userList = new Fossil.Views.Collection({
     itemView: Backbone.View.extend({
         render: function () {
             this.$el.html(this.model.get('name'));
+            return this;
         }
     })
 });
