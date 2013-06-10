@@ -13,6 +13,14 @@ This package provides the following:
   view and you're done!
 * A **Region Manager** is used to split a layout into several smaller views.
 
+View The Samples
+----------------
+
+* [Non amd](http://themouette.github.io/fossil-view/samples/nonAmd/index.html)
+* [A simple layout with a collection](http://themouette.github.io/fossil-view/samples/simple/index.html)
+
+* [Test suite](http://themouette.github.io/fossil-view/tests/test.html)
+
 Sample Code
 -----------
 
