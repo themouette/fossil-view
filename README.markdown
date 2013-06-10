@@ -1,22 +1,22 @@
-Fossil view
+Fossil View
 ===========
 
-A set of `[Backbone](http://backbonejs.org)` base views to speed up
+A set of [Backbone](http://backbonejs.org) base views to speed up
 developments.
 
-This library can be used as a standalone component or as part of a `Fossil`
+This library can be used as a **standalone component** or as part of a `Fossil`
 project.
 
-This package provides the following
+This package provides the following:
 
-* Collection view is used to render a collection of model. Design an item view
-  and you're done !
-* Region manager is used to separate layout into several smaller views.
+* A **Collection View** is used to render a collection of model. Design an item
+  view and you're done!
+* A **Region Manager** is used to split a layout into several smaller views.
 
-Sample code
+Sample Code
 -----------
 
-### A simple layout
+### A Simple Layout
 
 ``` javascript
 var canvas = new Fossil.Views.RegionManager({
@@ -49,9 +49,8 @@ canvas.setElement('body').render();
 canvas.registerView(new Backbone.View(), "content");
 ```
 
-### Using collection view
+### Using Collection Views
 
-Collection view is used
 
 ``` javascript
 // use a model collection to manage items
@@ -83,24 +82,23 @@ users.add({name: "Walter"}, {at: 1});
 Installation
 ------------
 
-### Using bower
+### Using `bower`
 
-`bower install themouette/fossil-view`
+  bower install themouette/fossil-view
 
-### Using git
+### Using `git`
 
-``` sh
-$ git clone git://github.com/themouette/fossil-view.git
-$ npm install
-```
+  $ git clone git://github.com/themouette/fossil-view.git
+  $ npm install
 
-Include Fossil view in your project
+
+Include Fossil View In Your Project
 -----------------------------------
 
 ### Using AMD
 
 First, ensure you have `backbone` and `underscore` in your shim definition, then
-set the `fossil/view` path.
+set the `fossil/view` path:
 
 ``` javascript
 require.config({
@@ -114,8 +112,8 @@ require.config({
 });
 ```
 
-From now on it is possible to quire the whole Fossil view or only the one you
-need :
+From now on, it is possible to quire the whole Fossil View or only the one you
+need:
 
 ``` javascript
 define([
@@ -125,7 +123,7 @@ define([
 });
 ```
 
-or to use only a part
+or to use only a part:
 
 ``` javascript
 define([
@@ -135,9 +133,9 @@ define([
 });
 ```
 
-### Include the whole script
+### Including The Whole Script
 
-In your HTML, just incude the generated script :
+In your HTML, just incude the generated script:
 
 ``` javascript
 <html>
@@ -157,4 +155,4 @@ Contributing
 
 To run local server, use the `npm start` command.
 
-To run test, use `grunt test` command.
+To run the test suite, use the `grunt test` command.
