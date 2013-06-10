@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Fossil-view by themouette</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Fossil-view</h1>
+          <h2>A simple set of backbone views</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/themouette/fossil-view/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/themouette/fossil-view/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/themouette/fossil-view" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="fossil-view" class="anchor" href="#fossil-view"><span class="octicon octicon-link"></span></a>Fossil View</h1>
+
+<p>A set of <a href="http://backbonejs.org">Backbone</a> base views to speed up
+developments.</p>
+
+<p>This library can be used as a <strong>standalone component</strong> or as part of a <code>Fossil</code>
+project.</p>
+
+<p>This package provides the following:</p>
+
+<ul>
+<li>A <strong>Collection View</strong> is used to render a collection of model. Design an item
+view and you're done!</li>
+<li>A <strong>Region Manager</strong> is used to split a layout into several smaller views.</li>
+</ul><h2>
+<a name="sample-code" class="anchor" href="#sample-code"><span class="octicon octicon-link"></span></a>Sample Code</h2>
+
+<h3>
+<a name="a-simple-layout" class="anchor" href="#a-simple-layout"><span class="octicon octicon-link"></span></a>A Simple Layout</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Fossil</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">RegionManager</span><span class="p">({</span>
+    <span class="nx">regions</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">content</span><span class="o">:</span> <span class="s2">".content"</span><span class="p">,</span>
+        <span class="nx">sidebar</span><span class="o">:</span> <span class="s2">".sidebar"</span><span class="p">,</span>
+        <span class="nx">menubar</span><span class="o">:</span> <span class="s2">"nav.menu"</span><span class="p">,</span>
+        <span class="nx">footer</span><span class="o">:</span> <span class="s2">"footer"</span>
+    <span class="p">},</span>
+    <span class="c1">// `template` can either be a function or a string.</span>
+    <span class="c1">// if `template` is a function, then it is called in view context.</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'&lt;nav class="menu"&gt;&lt;/nav&gt;'</span><span class="p">,</span>
+            <span class="s1">'&lt;section class="sidebar"&gt;&lt;/section&gt;'</span><span class="p">,</span>
+            <span class="s1">'&lt;section class="content"&gt;&lt;/section&gt;'</span><span class="p">,</span>
+            <span class="s1">'&lt;footer&gt;&lt;/footer&gt;'</span>
+        <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">registerView</span><span class="p">(</span><span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">(),</span> <span class="s2">"menu"</span><span class="p">);</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">registerView</span><span class="p">(</span><span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">(),</span> <span class="s2">"sidebar"</span><span class="p">);</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">registerView</span><span class="p">(</span><span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">(),</span> <span class="s2">"content"</span><span class="p">);</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">registerView</span><span class="p">(</span><span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">(),</span> <span class="s2">"footer"</span><span class="p">);</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">setElement</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">render</span><span class="p">();</span>
+
+<span class="c1">// Changing a subview is easy</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">registerView</span><span class="p">(</span><span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">(),</span> <span class="s2">"content"</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="using-collection-views" class="anchor" href="#using-collection-views"><span class="octicon octicon-link"></span></a>Using Collection Views</h3>
+
+<div class="highlight"><pre><span class="c1">// use a model collection to manage items</span>
+<span class="kd">var</span> <span class="nx">users</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">userList</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Fossil</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">Collection</span><span class="p">({</span>
+    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">'ul'</span><span class="p">,</span>
+    <span class="nx">collection</span><span class="o">:</span> <span class="nx">users</span><span class="p">,</span>
+    <span class="c1">// create a view for your items</span>
+    <span class="nx">itemView</span><span class="o">:</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+<span class="p">});</span>
+
+<span class="nx">userList</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+
+<span class="nx">users</span><span class="p">.</span><span class="nx">add</span><span class="p">([</span>
+    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">"Joe"</span><span class="p">},</span>
+    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">"Kevin"</span><span class="p">},</span>
+    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">"Steeve"</span><span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="c1">// you can specify an index</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">"Walter"</span><span class="p">},</span> <span class="p">{</span><span class="nx">at</span><span class="o">:</span> <span class="mi">1</span><span class="p">});</span>
+</pre></div>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h5>
+<a name="using-bower" class="anchor" href="#using-bower"><span class="octicon octicon-link"></span></a>Using <code>bower</code>
+</h5>
+
+<pre><code>bower install themouette/fossil-view
+</code></pre>
+
+<h5>
+<a name="using-git" class="anchor" href="#using-git"><span class="octicon octicon-link"></span></a>Using <code>git</code>
+</h5>
+
+<pre><code>$ git clone git://github.com/themouette/fossil-view.git
+$ npm install
+</code></pre>
+
+<h2>
+<a name="include-fossil-view-in-your-project" class="anchor" href="#include-fossil-view-in-your-project"><span class="octicon octicon-link"></span></a>Include Fossil View In Your Project</h2>
+
+<h3>
+<a name="using-amd" class="anchor" href="#using-amd"><span class="octicon octicon-link"></span></a>Using AMD</h3>
+
+<p>First, ensure you have <code>backbone</code> and <code>underscore</code> in your shim definition, then
+set the <code>fossil/view</code> path:</p>
+
+<div class="highlight"><pre><span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'fossil/view'</span><span class="o">:</span> <span class="s1">'path/to/fossil-view/src'</span>
+    <span class="p">},</span>
+    <span class="nx">shim</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'backbone'</span><span class="o">:</span> <span class="p">{</span><span class="nx">deps</span><span class="o">:</span> <span class="p">[</span><span class="s1">'jquery'</span><span class="p">,</span> <span class="s1">'underscore'</span><span class="p">],</span> <span class="nx">exports</span><span class="o">:</span> <span class="s1">'Backbone'</span><span class="p">},</span>
+        <span class="s1">'underscore'</span><span class="o">:</span> <span class="p">{</span><span class="nx">exports</span><span class="o">:</span> <span class="s1">'_'</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>From now on, it is possible to quire the whole Fossil View or only the one you
+need:</p>
+
+<div class="highlight"><pre><span class="nx">define</span><span class="p">([</span>
+    <span class="s1">'fossil/view/main'</span>
+<span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Views</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">new</span> <span class="nx">Views</span><span class="p">.</span><span class="nx">Collection</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>or to use only a part:</p>
+
+<div class="highlight"><pre><span class="nx">define</span><span class="p">([</span>
+    <span class="s1">'fossil/view/collection'</span>
+<span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">CollectionView</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">new</span> <span class="nx">CollectionView</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="including-the-whole-script" class="anchor" href="#including-the-whole-script"><span class="octicon octicon-link"></span></a>Including The Whole Script</h3>
+
+<p>In your HTML, just incude the generated script:</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"path/to/fossil-view/fossil-view.js"</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+        <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"javascript"</span><span class="o">&gt;</span>
+            <span class="k">new</span> <span class="nx">Fossil</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">Collection</span><span class="p">();</span>
+        <span class="o">&lt;</span><span class="err">/script&gt;</span>
+    <span class="o">&lt;</span><span class="err">/head&gt;</span>
+    <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="err">/body&gt;</span>
+<span class="o">&lt;</span><span class="err">/html&gt;</span>
+</pre></div>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>To run local server, use the <code>npm start</code> command.</p>
+
+<p>To run the test suite, use the <code>grunt test</code> command.</p>
+        </section>
+
+        <footer>
+          Fossil-view is maintained by <a href="https://github.com/themouette">themouette</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
