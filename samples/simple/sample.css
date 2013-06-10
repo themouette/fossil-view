@@ -1,0 +1,39 @@
+/* layout */
+html, body, div {
+  margin: 0;
+}
+html,body{
+    height: 100%
+}
+.wrap > header{
+    height: 60px;
+}
+.wrap > header h1, .wrap > header nav {
+    display:inline-block;
+}
+.wrap {
+    min-height: 100%;
+    position:relative;
+    margin-bottom: -60px;
+}
+section {
+    display: inline-block;
+    vertical-align:top;
+}
+.sidebar {
+    width: 19%;
+}
+.content {
+    width: 80%;
+}
+body > footer {
+    height: 59px;
+    text-align: center;
+    border-top: 1px solid transparent;
+}
+
+/* sidebar */
+.sidebar li {
+    list-style: none;
+    display: inline-block;
+}
