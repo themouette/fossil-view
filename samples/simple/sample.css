@@ -1,24 +1,40 @@
-/* layout */
-html, body, div {
+/* base */
+html, body, div, section {
   margin: 0;
+  padding: 0;
+  border: none;
 }
 html,body{
     height: 100%
 }
-.wrap > header{
+
+/* layout */
+body {
+    background-color: #e6e7e8;
+    color: #222;
+}
+.l-wrap > header{
     height: 60px;
+    background-color: #222;
+    color: #888;
 }
-.wrap > header h1, .wrap > header nav {
+.l-wrap > header h1, .l-wrap > header nav {
     display:inline-block;
+    line-height: 60px;
 }
-.wrap {
+.l-wrap > header h1 {
+    padding: 0;
+    margin: 0 10px;
+}
+.l-wrap {
     min-height: 100%;
-    position:relative;
     margin-bottom: -60px;
 }
 section {
     display: inline-block;
     vertical-align:top;
+    box-sizing: border-box;
+    padding: 10px 0 60px 10px;
 }
 .sidebar {
     width: 19%;
@@ -30,6 +46,8 @@ body > footer {
     height: 59px;
     text-align: center;
     border-top: 1px solid transparent;
+    background-color: #222;
+    color: #888;
 }
 
 /* sidebar */
