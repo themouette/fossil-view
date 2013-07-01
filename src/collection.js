@@ -31,12 +31,16 @@
 
         getView: function (id) {
             if (!this.subviews[id]) {
-                this.subviews[id] = new this.ItemView({
-                    model: this.collection.get(id)
-                });
+                this.subviews[id] = new this.ItemView(this._getItemViewOptions(id));
             }
 
             return this.subviews[id];
+        },
+
+        _getItemViewOptions: function (id) {
+            return {
+                model: this.collection.get(id)
+            };
         },
 
         // use view.stopListening(view.collection) to undelegate events.

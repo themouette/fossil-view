@@ -57,4 +57,27 @@ define([
     test('View order is updated when models are reordered', function () {
         expect(0);
     });
+
+    test('It is possible to specify options to ItemView', function () {
+        expect(1);
+        var collection = new Backbone.Collection([{foo:"baz"}]);
+        var View = Collection.extend({
+            _getItemViewOptions: function (id) {
+                return _.extend({
+                    value: 12
+                }, Collection.prototype._getItemViewOptions.call(this, id));
+            }
+        });
+
+        var panel = new View({
+            collection: collection,
+            ItemView: Backbone.View.extend({
+                render: function () {
+                    equal(12, this.options.value);
+                    return this;
+                }
+            })
+        });
+        panel.render();
+    });
 });
