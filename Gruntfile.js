@@ -82,6 +82,7 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['concat', 'uglify', 'copy']);
+  grunt.registerTask('release', ['concat', 'uglify', 'copy']);
+  grunt.registerTask('default', ['release']);
 
 };
