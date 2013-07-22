@@ -1,7 +1,4 @@
-define([
-    'fossil/view/composite',
-    'backbone'
-], function (Composite, Backbone) {
+(function (Composite, Backbone) {
     module('Composite');
 
     test('Composite view can be instanciated', function() {
@@ -204,4 +201,4 @@ define([
         equal("foo", panel.subviews.b.id);
         equal(null, panel.subviews.c.id);
     });
-});
+})(Fossil.Views.Composite, Backbone);

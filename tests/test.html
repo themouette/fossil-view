@@ -8,29 +8,16 @@
 <body>
   <div id="qunit"></div>
   <script src="../components/qunit/qunit.js"></script>
-  <script src="../components/requirejs/require.js"></script>
+  <script src="../components/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../components/underscore/underscore.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../components/backbone/backbone.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../fossil-view.js" type="text/javascript" charset="utf-8"></script>
+  <script src="collection.js" type="text/javascript" charset="utf-8"></script>
+  <script src="composite.js" type="text/javascript" charset="utf-8"></script>
+  <script src="region.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
     QUnit.config.autostart = false;
-    require.config({
-        baseUrl: '',
-        paths: {
-            'fossil/view': '../src',
-            'jquery': '../components/jquery/jquery',
-            'underscore': '../components/underscore/underscore',
-            'backbone': '../components/backbone/backbone'
-        },
-        shim: {
-            'underscore': {exports: '_'},
-            'backbone': { deps: ['underscore', 'jquery'], exports: 'Backbone'}
-        }
-    });
-    require([
-        './composite',
-        './collection',
-        './region'
-    ], function () {
-        QUnit.start();
-    });
+    QUnit.start();
   </script>
 </body>
 </html>

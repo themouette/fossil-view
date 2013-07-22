@@ -1,7 +1,4 @@
-define([
-    'fossil/view/collection',
-    'backbone'
-], function (Collection, Backbone) {
+(function (Collection, Backbone) {
     module('Collection');
 
     test('No new view is created when a model is added and view is not rendered', function () {
@@ -80,4 +77,4 @@ define([
         });
         panel.render();
     });
-});
+})(Fossil.Views.Collection, Backbone);

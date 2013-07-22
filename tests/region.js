@@ -1,7 +1,4 @@
-define([
-    'fossil/view/regionManager',
-    'backbone'
-], function (RegionManager, Backbone) {
+(function (RegionManager, Backbone) {
     module('RegionManager');
 
     test('RegionManager manager can be instanciated', function () {
@@ -165,4 +162,4 @@ define([
 
         throws(region.render);
     });
-});
+})(Fossil.Views.RegionManager, Backbone);
