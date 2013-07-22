@@ -18,11 +18,11 @@
     var _super = Composite.prototype;
     var RegionManager = Lib.RegionManager = Composite.extend({
         regions: {},
-        initialize: function (options) {
-            _super.initialize.call(this, options);
+        constructor: function (options) {
             options || (options = {});
             this.regions = _.clone(this.regions);
             this.defineRegion(options.regions || this.regions);
+            _super.constructor.apply(this, arguments);
         },
 
         // define a new region

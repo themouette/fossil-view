@@ -18,25 +18,29 @@
 
     var _super = Composite.prototype;
     var Collection = Lib.Collection = Composite.extend({
-        ItemView: Backbone.View,
-
-        initialize: function (options) {
-            _super.initialize.call(this, options);
+        constructor: function (options) {
             _ensureCollection(this);
             if (options && options.ItemView) {
                 this.ItemView = options.ItemView;
             }
+            _super.constructor.apply(this, arguments);
             this.bindCollectionEvents();
         },
 
+        ItemView: Backbone.View,
+
         getView: function (id) {
             if (!this.subviews[id]) {
-                this.subviews[id] = new this.ItemView({
-                    model: this.collection.get(id)
-                });
+                this.subviews[id] = new this.ItemView(this._getItemViewOptions(id));
             }
 
             return this.subviews[id];
+        },
+
+        _getItemViewOptions: function (id) {
+            return {
+                model: this.collection.get(id)
+            };
         },
 
         // use view.stopListening(view.collection) to undelegate events.

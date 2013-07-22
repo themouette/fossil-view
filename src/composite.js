@@ -21,7 +21,8 @@
         selector: null,
         _rendered: false,
 
-        initialize: function (options) {
+        constructor: function (options) {
+            _super.constructor.apply(this, arguments);
             this.subviews = _.clone(this.subviews);
         },
 
