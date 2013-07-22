@@ -1,23 +1,10 @@
 // This file defines the `Collection` view.
 // This file depends on Fossil's `Composite` view
-(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define([
-            'underscore',
-            'backbone',
-            'fossil/view/core',
-            'fossil/view/composite'
-        ], factory);
-    } else {
-        // Browser globals
-        root.Fossil.View.Collection = factory(root._, root.Backbone, root.Fossil.View, root.Fossil.View.Composite);
-    }
-}(this, function (_, Backbone, Lib, Composite) {
+(function (_, Backbone, Lib) {
     "use strict";
 
-    var _super = Composite.prototype;
-    var Collection = Lib.Collection = Composite.extend({
+    var _super = Lib.Composite.prototype;
+    var Collection = Lib.Collection = Lib.Composite.extend({
         constructor: function (options) {
             _ensureCollection(this);
             if (options && options.ItemView) {
@@ -93,4 +80,4 @@
     }
 
     return Collection;
-}));
+})(_, Backbone, Lib);
