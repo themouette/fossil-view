@@ -1,4 +1,4 @@
-(function (_, Backbone, jQuery, Fossil) {
+define('fossil/view', ['underscore', 'backbone', 'jquery', 'fossil'], function (_, Backbone, jQuery, Fossil) {
 // This file defines the Fossil View base component.
 // It is required for any of the Fossil view component.
 var Lib = (function (Fossil, Backbone) {
@@ -343,4 +343,4 @@ var Lib = (function (Fossil, Backbone) {
     return RegionManager;
 })(_, Backbone, Lib);
 return Fossil.Views;
-})(_, Backbone, jQuery, this.Fossil || (this.Fossil = {}));
+});
