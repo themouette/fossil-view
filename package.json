@@ -8,11 +8,11 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "grunt connect:server:keepalive",
-    "postinstall": "bower install",
-    "test": "grunt test"
+    "start": "./node_modules/grunt-cli/bin/grunt connect:server:keepalive",
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "test": "./node_modules/grunt-cli/bin/grunt test"
   },
-  "repository": "",
+  "repository": "https://github.com/themouette/fossil-view.git",
   "author": "Julien Muetton",
   "license": "MIT",
   "readmeFilename": "README.markdown",
@@ -25,6 +25,8 @@
     "grunt-contrib-concat": "~0.1.3",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-connect": "~0.3.0",
-    "grunt-contrib-qunit": "~0.2.2"
+    "grunt-contrib-qunit": "~0.2.2",
+    "bower": "~0.10.0",
+    "grunt-cli": "~0.1.9"
   }
 }
