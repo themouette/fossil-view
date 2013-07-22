@@ -4,6 +4,9 @@ Fossil View
 A set of [Backbone](http://backbonejs.org) base views to speed up
 developments.
 
+[![Build
+Status](https://travis-ci.org/themouette/fossil-view.png?branch=master)](https://travis-ci.org/themouette/fossil-view)
+
 This library can be used as a **standalone component** or as part of a `Fossil`
 project.
 
