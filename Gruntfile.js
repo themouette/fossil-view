@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    buildsrc: ['src/core.js', 'src/composite.js', 'src/collection.js', 'src/regionManager.js'],
     qunit: {
         all: {
             options: {
@@ -22,28 +23,47 @@ module.exports = function(grunt) {
         }
     },
     concat: {
-        options: {
-            separator: ';'
-        },
-        release: {
-            src: ['src/core.js', 'src/composite.js', 'src/collection.js', 'src/regionManager.js'],
+        library: {
+            options: {
+                banner: "(function (_, Backbone, jQuery, Fossil) {\n",
+                footer: [
+                    "return Fossil.Views;",
+                    "})(_, Backbone, jQuery, this.Fossil || (this.Fossil = {}));"
+                ].join("\n")
+            },
+            src: '<%= buildsrc %>',
             dest: '<%= pkg.name %>.js'
+        },
+        amd: {
+            options: {
+                banner: "define('fossil/view', ['underscore', 'backbone', 'jquery', 'fossil'], function (_, Backbone, jQuery, Fossil) {\n",
+                footer: [
+                    "return Fossil.Views;",
+                    "});"
+                ].join("\n")
+            },
+            src: '<%= buildsrc %>',
+            dest: '<%= pkg.name %>.amd.js'
         }
     },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
-      release: {
+      library: {
         src: '<%= pkg.name %>.js',
         dest: '<%= pkg.name %>.min.js'
+      },
+      amd: {
+        src: '<%= pkg.name %>.amd.js',
+        dest: '<%= pkg.name %>.amd.min.js'
       }
     },
     copy: {
         vendors: {
             files: [
                 // copy dependencies for samples
-                {expand: true, cwd: 'components', src: [
+                {expand: true, cwd: 'bower_components', src: [
                         'qunit/qunit.css',
                         'qunit/qunit.js',
                         'underscore/underscore.js',
