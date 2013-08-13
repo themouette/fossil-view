@@ -201,4 +201,20 @@
         equal("foo", panel.subviews.b.id);
         equal(null, panel.subviews.c.id);
     });
+
+    test('subview recieves render arguments', function () {
+        expect(4);
+        var View = Backbone.View.extend({
+            render: function () {
+                equal(arguments.length, 3);
+                equal(arguments[0], 0);
+                equal(arguments[1], "string");
+                deepEqual(arguments[2], {a:1});
+            }
+        });
+        var panel = new Composite({});
+        panel.registerView(new View());
+
+        panel.render(0, "string", {a:1});
+    });
 })(Fossil.Views.Composite, Backbone);

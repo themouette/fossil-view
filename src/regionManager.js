@@ -47,19 +47,21 @@
             if (!this.regions[id]) {
                 throw new Error(messages.require_region({id: id}));
             }
+            var extra = _.tail(arguments, 2);
 
             options = _.extend({
                 empty: true,
                 selector: this.regions[id]
             }, options || {});
 
-            return _super._renderSubview.call(this, id, options);
+            return _super._renderSubview.apply(this, [id, options].concat(extra));
         },
 
         _renderAllSubviews: function () {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.regions, function (selector, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         }
     });

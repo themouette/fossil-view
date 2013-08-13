@@ -69,8 +69,9 @@
         _renderSubview: function (id, options) {
             var selector;
             var itemview = this.getView(id);
+            var renderArguments = _.tail(arguments, 2);
             options || (options = {});
-            itemview.render();
+            itemview.render.apply(itemview, renderArguments);
 
             if (!itemview.el) {
                 return ;
@@ -117,8 +118,9 @@
 
         _renderAllSubviews: function() {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.subviews, function (itemview, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         },
 
@@ -138,8 +140,8 @@
         // render template, then
         render: function () {
             this._detachAllSubviews();
-            this.$el.html(this.template());
-            this._renderAllSubviews();
+            _super.render.apply(this, arguments);
+            this._renderAllSubviews.apply(this, arguments);
             this._rendered = true;
             return this;
         },

@@ -66,9 +66,10 @@
 
         _renderAllSubviews: function () {
             var composite = this;
+            var args = _.toArray(arguments);
             // render in collection order
             this.collection.each(function (model, id) {
-                composite._renderSubview(model.cid);
+                composite._renderSubview.apply(composite, [model.cid, {}].concat(args));
             });
         }
     });
