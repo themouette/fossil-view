@@ -4,7 +4,7 @@ var collection = new Backbone.Collection([
     {name: 'Robert'}
 ]);
 
-var Menu = Backbone.View.extend({
+var Menu = Fossil.View.extend({
     tagName: 'ul',
     render: function () {
         this.$el.html([
@@ -13,7 +13,7 @@ var Menu = Backbone.View.extend({
     }
 });
 
-var layout = new Fossil.View.RegionManager({
+var layout = new Fossil.Views.RegionManager({
     regions: {
         'menu': 'nav.menu',
         'content': 'section'
@@ -33,7 +33,7 @@ layout.registerView(new Menu({
     collection: collection,
 }), 'menu');
 
-layout.registerView(new Fossil.View.Collection({
+layout.registerView(new Fossil.Views.Collection({
     collection: collection,
     ItemView: Backbone.View.extend({
         tagName: 'li',

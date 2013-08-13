@@ -1,22 +1,14 @@
 // This file defines the `RegionManager` view.
 // This file depends on Fossil's `Composite` view
-(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['underscore', 'backbone', 'fossil/view/core', 'fossil/view/composite'], factory);
-    } else {
-        // Browser globals
-        root.Fossil.View.RegionManager = factory(root._, root.Backbone, root.Fossil.View, root.Fossil.View.Composite);
-    }
-}(this, function (_, Backbone, Lib, Composite) {
+(function (_, Backbone, Lib) {
     "use strict";
 
     var messages = {
         require_region: _.template('Unknown region <%- id %>')
     };
 
-    var _super = Composite.prototype;
-    var RegionManager = Lib.RegionManager = Composite.extend({
+    var _super = Lib.Composite.prototype;
+    var RegionManager = Lib.RegionManager = Lib.Composite.extend({
         regions: {},
         constructor: function (options) {
             options || (options = {});
@@ -55,19 +47,21 @@
             if (!this.regions[id]) {
                 throw new Error(messages.require_region({id: id}));
             }
+            var extra = _.tail(arguments, 2);
 
             options = _.extend({
                 empty: true,
                 selector: this.regions[id]
             }, options || {});
 
-            return _super._renderSubview.call(this, id, options);
+            return _super._renderSubview.apply(this, [id, options].concat(extra));
         },
 
         _renderAllSubviews: function () {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.regions, function (selector, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         }
     });
@@ -80,4 +74,4 @@
     }
 
     return RegionManager;
-}));
+})(_, Backbone, Lib);

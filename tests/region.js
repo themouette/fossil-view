@@ -1,7 +1,4 @@
-define([
-    'fossil/view/regionManager',
-    'backbone'
-], function (RegionManager, Backbone) {
+(function (RegionManager, Backbone) {
     module('RegionManager');
 
     test('RegionManager manager can be instanciated', function () {
@@ -165,4 +162,25 @@ define([
 
         throws(region.render);
     });
-});
+
+    test('subview recieves render arguments', function () {
+        expect(4);
+        var View = Backbone.View.extend({
+            render: function () {
+                equal(arguments.length, 3);
+                equal(arguments[0], 0);
+                equal(arguments[1], "string");
+                deepEqual(arguments[2], {a:1});
+            }
+        });
+        var region = new RegionManager({
+            template: '<section></section>'
+        });
+        region.defineRegion({
+            main: 'section'
+        });
+        region.registerView(new View(), 'main');
+
+        region.render(0, "string", {a:1});
+    });
+})(Fossil.Views.RegionManager, Backbone);

@@ -1,22 +1,14 @@
 // This file defines the Composite view.
 // A composite view is a view composed of subviews.
-(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['underscore', 'backbone', 'fossil/view/core'], factory);
-    } else {
-        // Browser globals
-        root.Fossil.View.Composite = factory(_, Backbone, root.Fossil.View);
-    }
-}(this, function (_, Backbone, Lib) {
+(function (_, Backbone, Fossil, Lib) {
     "use strict";
 
     var messages = {
         invalid_view: "registerView accept a Backbone.View or an Object as first argument."
     };
 
-    var _super = Backbone.View.prototype;
-    var Composite = Lib.Composite = Backbone.View.extend({
+    var _super = Fossil.View.prototype;
+    var Composite = Lib.Composite = Fossil.View.extend({
         subviews: {},
         selector: null,
         _rendered: false,
@@ -77,8 +69,9 @@
         _renderSubview: function (id, options) {
             var selector;
             var itemview = this.getView(id);
+            var renderArguments = _.tail(arguments, 2);
             options || (options = {});
-            itemview.render();
+            itemview.render.apply(itemview, renderArguments);
 
             if (!itemview.el) {
                 return ;
@@ -125,8 +118,9 @@
 
         _renderAllSubviews: function() {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.subviews, function (itemview, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         },
 
@@ -146,8 +140,8 @@
         // render template, then
         render: function () {
             this._detachAllSubviews();
-            this.$el.html(this.template());
-            this._renderAllSubviews();
+            _super.render.apply(this, arguments);
+            this._renderAllSubviews.apply(this, arguments);
             this._rendered = true;
             return this;
         },
@@ -177,4 +171,4 @@
 
 
     return Composite;
-}));
+})(_, Backbone, Fossil, Lib);

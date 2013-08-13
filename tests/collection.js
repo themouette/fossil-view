@@ -1,7 +1,4 @@
-define([
-    'fossil/view/collection',
-    'backbone'
-], function (Collection, Backbone) {
+(function (Collection, Backbone) {
     module('Collection');
 
     test('No new view is created when a model is added and view is not rendered', function () {
@@ -80,4 +77,25 @@ define([
         });
         panel.render();
     });
-});
+
+    test('subview recieves render arguments', function () {
+        expect(4);
+        var collection = new Backbone.Collection([{foo:"baz"}]);
+        var View = Backbone.View.extend({
+            render: function () {
+                equal(arguments.length, 3);
+                equal(arguments[0], 0);
+                equal(arguments[1], "string");
+                deepEqual(arguments[2], {a:1});
+            }
+        });
+        var panel = new Collection({
+            collection: collection,
+            ItemView: View
+        });
+
+        panel.render(0, "string", {a:1});
+
+
+    });
+})(Fossil.Views.Collection, Backbone);

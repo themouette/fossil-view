@@ -9,14 +9,20 @@ requirejs.config({
         "underscore": "../../components/underscore/underscore",
         "backbone": "../../components/backbone/backbone",
         "tpl": "../../components/requirejs-tpl/tpl",
-        "fossil/view": "../../src"
+        "fossil/view": "../../fossil-view.amd"
     },
     shim: {
         'underscore': { exports: '_' },
         'backbone': { deps: ['underscore', 'jquery'], exports: 'Backbone' },
-        'jquery.color': { deps: ['jquery'], exports: '$' },
+        'jquery.color': { deps: ['jquery'], exports: '$' }
     }
 });
+
+// as Fossil is not defined here
+define('fossil', {});
+define('fossil/view/composite', ['fossil/view'], function (Views) {return Views.Composite;});
+define('fossil/view/collection', ['fossil/view'], function (Views) {return Views.Collection;});
+define('fossil/view/regionManager', ['fossil/view'], function (Views) {return Views.RegionManager;});
 
 require([
     'tpl!templates/canvas.html',
