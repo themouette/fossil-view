@@ -1,14 +1,19 @@
 (function (_, Backbone, jQuery, Fossil) {
 // This file defines the Fossil View base component.
 // It is required for any of the Fossil view component.
-var Lib = (function (Fossil, Backbone) {
+var Lib = (function (Fossil, _, Backbone) {
     "use strict";
 
-    Fossil.View || (Fossil.View = Backbone.View.extend({}));
+    Fossil.View || (Fossil.View = Backbone.View.extend({
+                        render: function () {
+                            this.$el.html(_.result(this, "template"));
+                            return this;
+                        }
+                    }));
     Fossil.Views || (Fossil.Views = {});
 
     return Fossil.Views;
-})(Fossil, Backbone);
+})(Fossil, _, Backbone);
 
 // This file defines the Composite view.
 // A composite view is a view composed of subviews.
@@ -81,8 +86,9 @@ var Lib = (function (Fossil, Backbone) {
         _renderSubview: function (id, options) {
             var selector;
             var itemview = this.getView(id);
+            var renderArguments = _.tail(arguments, 2);
             options || (options = {});
-            itemview.render();
+            itemview.render.apply(itemview, renderArguments);
 
             if (!itemview.el) {
                 return ;
@@ -129,8 +135,9 @@ var Lib = (function (Fossil, Backbone) {
 
         _renderAllSubviews: function() {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.subviews, function (itemview, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         },
 
@@ -150,8 +157,8 @@ var Lib = (function (Fossil, Backbone) {
         // render template, then
         render: function () {
             this._detachAllSubviews();
-            this.$el.html(this.template());
-            this._renderAllSubviews();
+            _super.render.apply(this, arguments);
+            this._renderAllSubviews.apply(this, arguments);
             this._rendered = true;
             return this;
         },
@@ -251,9 +258,10 @@ var Lib = (function (Fossil, Backbone) {
 
         _renderAllSubviews: function () {
             var composite = this;
+            var args = _.toArray(arguments);
             // render in collection order
             this.collection.each(function (model, id) {
-                composite._renderSubview(model.cid);
+                composite._renderSubview.apply(composite, [model.cid, {}].concat(args));
             });
         }
     });
@@ -316,19 +324,21 @@ var Lib = (function (Fossil, Backbone) {
             if (!this.regions[id]) {
                 throw new Error(messages.require_region({id: id}));
             }
+            var extra = _.tail(arguments, 2);
 
             options = _.extend({
                 empty: true,
                 selector: this.regions[id]
             }, options || {});
 
-            return _super._renderSubview.call(this, id, options);
+            return _super._renderSubview.apply(this, [id, options].concat(extra));
         },
 
         _renderAllSubviews: function () {
             var composite = this;
+            var args = _.toArray(arguments);
             _.each(this.regions, function (selector, id) {
-                composite._renderSubview(id);
+                composite._renderSubview.apply(composite, [id, {}].concat(args));
             });
         }
     });
