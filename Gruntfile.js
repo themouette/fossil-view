@@ -74,6 +74,7 @@ module.exports = function(grunt) {
                         'requirejs-tpl/tpl.js'
                     ], dest: 'doc/components/'},
                 {expand: true, src: ['<%= pkg.name %>.js'], dest: 'doc/'},
+                {expand: true, src: ['<%= pkg.name %>.amd.js'], dest: 'doc/'},
                 {expand: true, cwd: 'src', src: ['**/*.js'], dest: 'doc/src/'}
 
             ]
