@@ -36,14 +36,14 @@ module.exports = function(grunt) {
         },
         amd: {
             options: {
-                banner: "define('fossil/view', ['underscore', 'backbone', 'jquery', 'fossil'], function (_, Backbone, jQuery, Fossil) {\n",
+                banner: "define('fossil-view', ['underscore', 'backbone', 'jquery', 'fossil'], function (_, Backbone, jQuery, Fossil) {\n",
                 footer: [
                     "return Fossil.Views;",
                     "});"
                 ].join("\n")
             },
             src: '<%= buildsrc %>',
-            dest: '<%= pkg.name %>.amd.js'
+            dest: '<%= pkg.name %>-amd.js'
         }
     },
     uglify: {
@@ -55,8 +55,8 @@ module.exports = function(grunt) {
         dest: '<%= pkg.name %>.min.js'
       },
       amd: {
-        src: '<%= pkg.name %>.amd.js',
-        dest: '<%= pkg.name %>.amd.min.js'
+        src: '<%= pkg.name %>-amd.js',
+        dest: '<%= pkg.name %>-amd.min.js'
       }
     },
     copy: {
