@@ -54,6 +54,9 @@ canvas.registerView(new Backbone.View(), "sidebar");
 canvas.registerView(new Backbone.View(), "content");
 canvas.registerView(new Backbone.View(), "footer");
 
+// remove a view
+canvas.removeView("footer");
+
 canvas.setElement('body').render();
 
 // Changing a subview is easy
@@ -91,6 +94,44 @@ users.add([
 users.add({name: "Walter"}, {at: 1});
 ```
 
+### Recycling
+
+If a view has the `recycle` property set to `true`, then `CompositeView` will
+just detach it instead of removing it, and it will not be rerendered as long as
+`_rendered` property is `true`.
+
+Recycling aims at view reuse, so it is the developer's responsability to clear
+the view (using `remove(force)` in case of a fossil view). **Use it with care**
+
+### Define rendering
+
+A view renders string property `template` into it's element.
+Following hooks can be used to override default behavior:
+
+* `precompile(template)`: called on every render, to ensure template is always
+  processed;
+* `getViewData()`: compile data to provide to template;
+* `renderHtml(data[, helpers...])`: render template;
+* `onRendered()`: called when element is populated;
+* `attachPlugins`: called only if view element is attached to the DOM. This
+  should be used to attache jQuery widgets.
+* `detachPlugins` is a hook method for you to destroy jquery plugin or any
+  behavior set up in `attachPlugins`.  *Note* that it will require you to call
+  `attachPlugins` manualy when the view will be attached again.
+
+### Attach and detach plugins
+
+Some stuff should be done only after element is attached to the DOM.
+`attachPlugins` is triggered only when view is attached to the DOM, and
+forwarded through every Composite view. This means 2 things:
+
+* if you use Composite views, when you attach the top one, all subviews will
+  call it's `attachPlugins`.
+* If you attach the view to the DOM after rendering, you will need to call it
+  manually.
+
+Note that `detachPlugins` is always called automaticly.
+
 Installation
 ------------
 
@@ -124,18 +165,7 @@ require.config({
 });
 ```
 
-From now on, it is possible to quire the whole Fossil View or only the one you
-need:
-
-``` javascript
-define([
-    'fossil/view/main'
-], function (Views) {
-    new Views.Collection();
-});
-```
-
-or to use only a part:
+From now on, it is possible to require only the view you need:
 
 ``` javascript
 define([
@@ -145,7 +175,7 @@ define([
 });
 ```
 
-### Including The Whole Script
+### Including The standalone Script
 
 In your HTML, just incude the generated script:
 
@@ -165,6 +195,6 @@ In your HTML, just incude the generated script:
 Contributing
 ------------
 
-To run local server, use the `npm start` command.
+To run local server, use the `grunt dev` command.
 
 To run the test suite, use the `grunt test` command.
