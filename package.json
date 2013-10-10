@@ -26,7 +26,9 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-connect": "~0.3.0",
     "grunt-contrib-qunit": "~0.2.2",
-    "bower": "~0.10.0",
-    "grunt-cli": "~0.1.9"
+    "bower": "~1.2.7",
+    "grunt-cli": "~0.1.9",
+    "grunt-concurrent": "~0.4.0",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }

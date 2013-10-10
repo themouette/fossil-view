@@ -16,6 +16,7 @@
   "devDependencies": {
     "requirejs-tpl": "latest",
     "qunit": "~1.11.0",
-    "jquery-color": "~2.1.2"
+    "jquery-color": "~2.1.2",
+    "almond": "~0.2.6"
   }
 }

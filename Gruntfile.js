@@ -22,30 +22,42 @@ module.exports = function(grunt) {
             }
         }
     },
-    concat: {
-        library: {
+
+    requirejs: {
+        standalone: {
             options: {
-                banner: "(function (_, Backbone, jQuery, Fossil) {\n",
-                footer: [
-                    "return Fossil.Views;",
-                    "})(_, Backbone, jQuery, this.Fossil || (this.Fossil = {}));"
-                ].join("\n")
-            },
-            src: '<%= buildsrc %>',
-            dest: '<%= pkg.name %>.js'
-        },
-        amd: {
-            options: {
-                banner: "define('fossil/view', ['underscore', 'backbone', 'jquery', 'fossil'], function (_, Backbone, jQuery, Fossil) {\n",
-                footer: [
-                    "return Fossil.Views;",
-                    "});"
-                ].join("\n")
-            },
-            src: '<%= buildsrc %>',
-            dest: '<%= pkg.name %>.amd.js'
+                out: '<%= pkg.name %>.js',
+                optimize: 'none',
+                baseUrl: 'src/',
+                include: [ 'view', 'collection', 'composite', 'regionManager' ],
+                wrap: {
+                    startFile: [ 'build/templates/header_1.js', 'bower_components/almond/almond.js', 'build/templates/header_2.js' ],
+                    endFile: 'build/templates/footer.js'
+                },
+                paths: {
+                    'underscore': 'empty:',
+                    'backbone': 'empty:'
+                }
+            }
         }
     },
+
+    watch: {
+        standalone: {
+            files: ['build/templates/**/*', 'bower_components/almond/almond.js', 'src/**/*.js'],
+            tasks: ['requirejs:standalone']
+        }
+    },
+
+    concurrent: {
+        dev: {
+            options: {
+                logConcurrentOutput: true
+            },
+            tasks: ['connect:server:keepalive', 'watch:standalone']
+        }
+    },
+
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -53,10 +65,6 @@ module.exports = function(grunt) {
       library: {
         src: '<%= pkg.name %>.js',
         dest: '<%= pkg.name %>.min.js'
-      },
-      amd: {
-        src: '<%= pkg.name %>.amd.js',
-        dest: '<%= pkg.name %>.amd.min.js'
       }
     },
     copy: {
@@ -95,15 +103,24 @@ module.exports = function(grunt) {
   });
 
   // Load the plugin that provides the "uglify" task.
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   // Default task(s).
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('release', ['concat', 'uglify', 'copy']);
+
+  grunt.registerTask('build:dev', ['requirejs:standalone']);
+  grunt.registerTask('dev', ['build:dev', 'concurrent:dev']);
+
+  grunt.registerTask('build:release', ['requirejs:standalone', 'uglify', 'copy']);
+
+  grunt.registerTask('release', ['test', 'build:release']);
   grunt.registerTask('default', ['release']);
 
 };
