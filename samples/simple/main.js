@@ -1,19 +1,19 @@
 define([
     "tpl!templates/collection.html",
     "tpl!templates/user.html",
-    "backbone",
+    "fossil/view/view",
     "fossil/view/collection"
-], function (mainTpl, itemTpl, Backbone, CollectionView) {
+], function (mainTpl, itemTpl, View, CollectionView) {
     return CollectionView.extend({
         selector: 'ul.user-list',
-        ItemView: Backbone.View.extend({
+        ItemView: View.extend({
                 events: {
                     'click button': "onClick"
                 },
                 tagName: 'li',
-                render: function () {
-                    this.$el.html(itemTpl(this.model.toJSON()));
-                    return this;
+                template: itemTpl,
+                getViewData: function () {
+                    return this.model.toJSON();
                 },
                 onClick: function () {
                     this.model.destroy();

@@ -4,12 +4,12 @@ requirejs.config({
     baseUrl: './',
     paths: {
         "templates": "./templates",
-        "jquery": "../../components/jquery/jquery",
-        "jquery.color": "../../components/jquery-color/jquery.color",
-        "underscore": "../../components/underscore/underscore",
-        "backbone": "../../components/backbone/backbone",
-        "tpl": "../../components/requirejs-tpl/tpl",
-        "fossil/view": "../../fossil-view.amd"
+        "jquery": "../../bower_components/jquery/jquery",
+        "jquery.color": "../../bower_components/jquery-color/jquery.color",
+        "underscore": "../../bower_components/underscore/underscore",
+        "backbone": "../../bower_components/backbone/backbone",
+        "tpl": "../../bower_components/requirejs-tpl/tpl",
+        "fossil/view": "../../src"
     },
     shim: {
         'underscore': { exports: '_' },
@@ -19,23 +19,24 @@ requirejs.config({
 });
 
 // as Fossil is not defined here
-define('fossil', {});
-define('fossil/view/composite', ['fossil/view'], function (Views) {return Views.Composite;});
-define('fossil/view/collection', ['fossil/view'], function (Views) {return Views.Collection;});
-define('fossil/view/regionManager', ['fossil/view'], function (Views) {return Views.RegionManager;});
-
 require([
     'tpl!templates/canvas.html',
     'jquery',
     'underscore',
     'backbone',
+    'fossil/view/view',
     'fossil/view/regionManager',
     'userCollection',
     'sidebar',
     'main',
     'data',
     'jquery.color'
-], function (canvasTpl, $, _, Backbone, RegionManager, UserCollection, Sidebar, MainPanel, data) {
+], function (canvasTpl, $, _, Backbone, View, RegionManager, UserCollection, Sidebar, MainPanel, data) {
+
+    // to ensure templates are rendered using data.
+    View.prototype.renderHtml = function (data) {
+        return this.template(data);
+    };
 
     var layout = new RegionManager({
         regions: {
@@ -46,8 +47,9 @@ require([
     });
 
     var users = new UserCollection(data.users);
+    var CollectionView = new MainPanel({collection: users, recycle: true});
     layout.registerView(new Sidebar({collection: users}), 'sidebar');
-    layout.registerView(new MainPanel({collection: users}), 'content');
+    layout.registerView(CollectionView, 'content');
     // event broker for views to communicate
     Backbone.on('canvas:render', function () {
         layout
@@ -67,6 +69,12 @@ require([
                 }).animate({
                     'backgroundColor': 'transparent'
                 });
+    });
+    Backbone.on('app:show:item', function (item) {
+        layout.registerView(new View({template: _.template("item")}), 'content');
+    });
+    Backbone.on('app:show:list', function () {
+        layout.registerView(CollectionView, 'content');
     });
     layout.setElement('body').render();
 });
