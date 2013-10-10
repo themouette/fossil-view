@@ -118,7 +118,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build:dev', ['requirejs:standalone']);
   grunt.registerTask('dev', ['build:dev', 'concurrent:dev']);
 
-  grunt.registerTask('release', ['concat', 'uglify', 'copy']);
+  grunt.registerTask('build:release', ['requirejs:standalone', 'uglify', 'copy']);
+
+  grunt.registerTask('release', ['test', 'build:release']);
   grunt.registerTask('default', ['release']);
 
 };
