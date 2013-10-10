@@ -1,10 +1,10 @@
 // This file defines the `Collection` view.
 // This file depends on Fossil's `Composite` view
-(function (_, Backbone, Lib) {
+define(['underscore', 'backbone', './composite', './view'], function (_, Backbone, Composite, View) {
     "use strict";
 
-    var _super = Lib.Composite.prototype;
-    var Collection = Lib.Collection = Lib.Composite.extend({
+    var _super = Composite.prototype;
+    var Collection = Composite.extend({
         constructor: function (options) {
             _ensureCollection(this);
             if (options && options.ItemView) {
@@ -14,7 +14,7 @@
             this.bindCollectionEvents();
         },
 
-        ItemView: Backbone.View,
+        ItemView: View,
 
         getView: function (id) {
             if (!this.subviews[id]) {
@@ -81,4 +81,4 @@
     }
 
     return Collection;
-})(_, Backbone, Lib);
+});

@@ -1,15 +1,18 @@
 // This file defines the Fossil View base component.
 // It is required for any of the Fossil view component.
-var Lib = (function (Fossil, _, Backbone) {
+define([
+    'fossil-core', 'backbone',
+    './view', './collection', './composite', './regionManager'],
+function (Fossil, Backbone, View, Composite, Collection, RegionManager) {
     "use strict";
 
-    Fossil.View || (Fossil.View = Backbone.View.extend({
-                        render: function () {
-                            this.$el.html(_.result(this, "template"));
-                            return this;
-                        }
-                    }));
-    Fossil.Views || (Fossil.Views = {});
+    // Expose View to the world
+    Fossil.View = View;
+    Fossil.Views = _.extend(Fossil.Views || {}, {
+        'Composite': Composite,
+        'Collection': Collection,
+        'RegionManager': RegionManager
+    });
 
     return Fossil.Views;
-})(Fossil, _, Backbone);
+});
