@@ -73,6 +73,13 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
                     this._renderSubview(id);
                 }
 
+                if (this.subviews[id]._attachPlugins) {
+                    this.subviews[id]._attachPlugins();
+                } else if (this.subviews[id].attachPlugins) {
+                    // case there is no wrapper for attachPlugins
+                    this.subviews[id].attachPlugins();
+                }
+
                 return this;
             }
 
@@ -141,20 +148,8 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
                 $el.empty();
             }
 
-            // first element in list
-            if (options.index === 0) {
-                $el.prepend(itemview.el);
-                return ;
-            }
+            appendSubview(itemview, $el, options);
 
-            // an index is given
-            if (options.index) {
-                selector = '> :nth-child(' + (parseInt(options.index, 10)) + ')';
-                itemview.$el.insertAfter($el.find(selector));
-                return ;
-            }
-
-            $el.append(itemview.el);
             return ;
         },
 
@@ -229,8 +224,22 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
                 return ;
             }
             _.each(this.subviews, function attachPlugin (itemview, id) {
-                if (itemview.attachPlugins) {
+                if (itemview._attachPlugins) {
+                    itemview._attachPlugins();
+                } else if (itemview.attachPlugins) {
+                    // case of non Fossil views
                     itemview.attachPlugins();
+                }
+            });
+        },
+
+        detachPlugins: function () {
+            var args = arguments;
+            return _.map(this.subviews, function invokeSubview (itemview, id) {
+                if (typeof itemview._detachPlugin === "function") {
+                    itemview._detachPlugin.apply(itemview, args);
+                } else if (typeof itemview.detachPlugin === "function") {
+                    itemview.detachPlugin.apply(itemview, args);
                 }
             });
         },
@@ -253,12 +262,23 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
             this.invokeSubviews(method);
         };
     });
-    // forward only
-    _.each(['detachPlugins'], function (method) {
-        Composite.prototype[method] = function () {
-            this.invokeSubviews(method);
-        };
-    });
+
+    function appendSubview(view, $el, options) {
+        // first element in list
+        if (options.index === 0) {
+            $el.prepend(view.el);
+            return ;
+        }
+
+        // an index is given
+        if (options.index) {
+            selector = '> :nth-child(' + (parseInt(options.index, 10)) + ')';
+            view.$el.insertAfter($el.find(selector));
+            return ;
+        }
+
+        $el.append(view.el);
+    }
 
     return Composite;
 });

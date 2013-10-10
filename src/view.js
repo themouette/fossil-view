@@ -3,12 +3,6 @@
 // Main advantage is the ability to
 define(['backbone'], function (Backbone) {
 
-    function _detachPlugins(view) {
-        if (view._pluginsAttached && view.detachPlugins) {
-            view.detachPlugins();
-        }
-    }
-
     return Backbone.View.extend({
         // Stores template.
         // template can be compiled and renedered via hook methods:
@@ -88,19 +82,32 @@ define(['backbone'], function (Backbone) {
             if (this.onRendered) {
                 this.onRendered.apply(this, arguments);
             }
+            this._attachPlugins();
+            this._rendered = true;
+            return this;
+        },
+
+        // use this funciton to attach plugins.
+        // it checks you defined a callback and view is attached to DOM.
+        _attachPlugins: function () {
             if (this.isAttachedToDOM() && this.attachPlugins) {
-                _detachPlugins(this);
+                this._detachPlugins(this);
                 this.attachPlugins();
                 this._pluginsAttached = true;
             }
-            this._rendered = true;
-            return this;
+        },
+        // check detachPlugins is callable
+        _detachPlugins: function () {
+            if (this._pluginsAttached && this.detachPlugins) {
+                this.detachPlugins();
+                this._pluginsAttached = false;
+            }
         },
 
         // Use detach if you plan to reuse the view.
         // It removes view element from dom and call `detachPlugins` method.
         detach: function() {
-            _detachPlugins(this);
+            this._detachPlugins(this);
             if (this.$el && this.$el.detach) {
                 this.$el.detach();
             }
@@ -116,7 +123,7 @@ define(['backbone'], function (Backbone) {
             if (!force && this.recycle) {
                 return this.detach();
             }
-            _detachPlugins(this);
+            this._detachPlugins(this);
             // call parent remove
             Backbone.View.prototype.remove.apply(this, arguments);
             this._rendered = false;
