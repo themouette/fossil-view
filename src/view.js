@@ -86,7 +86,7 @@ define(['backbone'], function (Backbone) {
             }
             this.$el.html(renderedHtml);
             if (this.onRendered) {
-                this.onRendered();
+                this.onRendered.apply(this, arguments);
             }
             if (this.isAttachedToDOM() && this.attachPlugins) {
                 _detachPlugins(this);

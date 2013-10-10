@@ -4,7 +4,7 @@ define(['underscore', 'backbone', './composite'], function (_, Backbone, Composi
     "use strict";
 
     var messages = {
-        require_region: _.template('Unknown region <%- id %>')
+        require_region: _.template("Unknown region <%- id %>")
     };
 
     var _super = Composite.prototype;

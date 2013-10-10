@@ -211,7 +211,7 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
         // attach views just after the template is rendered
         // it allows to take advantage of attachPlugins native behavior
         onRendered: function () {
-            this._renderAllSubviews();
+            this._renderAllSubviews.apply(this, arguments);
         },
 
         // invoke a method on every subview, passing extra arguments.
