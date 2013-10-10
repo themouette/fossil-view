@@ -1,14 +1,14 @@
 // This file defines the `RegionManager` view.
 // This file depends on Fossil's `Composite` view
-(function (_, Backbone, Lib) {
+define(['underscore', 'backbone', './composite'], function (_, Backbone, Composite) {
     "use strict";
 
     var messages = {
         require_region: _.template('Unknown region <%- id %>')
     };
 
-    var _super = Lib.Composite.prototype;
-    var RegionManager = Lib.RegionManager = Lib.Composite.extend({
+    var _super = Composite.prototype;
+    var RegionManager = Composite.extend({
         regions: {},
         constructor: function (options) {
             options || (options = {});
@@ -74,4 +74,4 @@
     }
 
     return RegionManager;
-})(_, Backbone, Lib);
+});
