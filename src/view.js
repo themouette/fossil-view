@@ -78,6 +78,7 @@ define(['backbone'], function (Backbone) {
             if (this.renderHtml) {
                 renderedHtml = this.renderHtml.apply(this, [data].concat(_.toArray(arguments)));
             }
+            this._detachPlugins();
             this.$el.html(renderedHtml);
             if (this.onRendered) {
                 this.onRendered.apply(this, arguments);
@@ -90,9 +91,11 @@ define(['backbone'], function (Backbone) {
         // use this funciton to attach plugins.
         // it checks you defined a callback and view is attached to DOM.
         _attachPlugins: function () {
-            if (this.isAttachedToDOM() && this.attachPlugins) {
-                this._detachPlugins(this);
-                this.attachPlugins();
+            if (this.isAttachedToDOM()) {
+                this._detachPlugins();
+                if (this.attachPlugins) {
+                    this.attachPlugins();
+                }
                 this._pluginsAttached = true;
             }
         },
@@ -107,7 +110,7 @@ define(['backbone'], function (Backbone) {
         // Use detach if you plan to reuse the view.
         // It removes view element from dom and call `detachPlugins` method.
         detach: function() {
-            this._detachPlugins(this);
+            this._detachPlugins();
             if (this.$el && this.$el.detach) {
                 this.$el.detach();
             }
@@ -123,7 +126,7 @@ define(['backbone'], function (Backbone) {
             if (!force && this.recycle) {
                 return this.detach();
             }
-            this._detachPlugins(this);
+            this._detachPlugins();
             // call parent remove
             Backbone.View.prototype.remove.apply(this, arguments);
             this._rendered = false;
