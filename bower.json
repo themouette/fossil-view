@@ -5,7 +5,11 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
+    "bower_components",
+    "doc",
+    "samples",
+    "tests",
+    "build"
   ],
   "dependencies": {
     "backbone": "~1.0.0",
