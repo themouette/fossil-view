@@ -80,7 +80,7 @@ module.exports = function(grunt) {
                         'jquery-color/jquery.color.js',
                         'requirejs/require.js',
                         'requirejs-tpl/tpl.js'
-                    ], dest: 'doc/components/'},
+                    ], dest: 'doc/bower_components/'},
                 {expand: true, src: ['<%= pkg.name %>.js'], dest: 'doc/'},
                 {expand: true, src: ['<%= pkg.name %>.amd.js'], dest: 'doc/'},
                 {expand: true, cwd: 'src', src: ['**/*.js'], dest: 'doc/src/'}
