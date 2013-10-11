@@ -8,15 +8,19 @@ define([
         selector: 'ul.user-list',
         ItemView: View.extend({
                 events: {
-                    'click button': "onClick"
+                    'click .delete': "onDelete",
+                    'click .details': "onDetails"
                 },
                 tagName: 'li',
                 template: itemTpl,
                 getViewData: function () {
                     return this.model.toJSON();
                 },
-                onClick: function () {
+                onDelete: function () {
                     this.model.destroy();
+                },
+                onDetails: function () {
+                    Backbone.trigger('app:show:item', this.model);
                 }
             }),
         template:  mainTpl

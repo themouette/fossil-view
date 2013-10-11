@@ -55,3 +55,9 @@ body > footer {
     list-style: none;
     display: inline-block;
 }
+
+/* content */
+/* prevent margin merge with titles*/
+.content > div {
+    border-top: 1px solid transparent;
+}
