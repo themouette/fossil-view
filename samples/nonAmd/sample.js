@@ -4,7 +4,7 @@ var collection = new Backbone.Collection([
     {name: 'Robert'}
 ]);
 
-var Menu = Fossil.View.extend({
+var Menu = Fossil.Views.View.extend({
     tagName: 'ul',
     render: function () {
         this.$el.html([

@@ -1,8 +1,11 @@
 define([
     "tpl!templates/sidebar.html",
-    "backbone"
-], function (sidebarTpl, Backbone) {
-    var Sidebar = Backbone.View.extend({
+    "backbone",
+    "fossil/view/view"
+], function (sidebarTpl, Backbone, View) {
+
+    var Sidebar = View.extend({
+        template: sidebarTpl,
         events: {
             'click .collection .add': "add",
             'click .collection .insertAt': "insertAt",
@@ -18,6 +21,14 @@ define([
             }, options);
             this.$('#name').val('');
         },
+
+        detachPlugins: function () {
+            console.log('sidebar detach plugins: remove jQuery widgets and other attachedPlugins');
+        },
+        attachPlugins: function () {
+            console.log('sidebar attach plugins: initialize jQuery widgets for instance');
+        },
+
         add: function () {
             this.addUser();
         },
@@ -35,11 +46,8 @@ define([
         },
         renderCanvas: function () {
             Backbone.trigger('canvas:render');
-        },
-        render: function () {
-            this.$el.html(sidebarTpl());
-            return this;
         }
+
     });
 
     return Sidebar;
