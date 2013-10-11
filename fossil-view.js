@@ -421,12 +421,6 @@ var requirejs, require, define;
 // Main advantage is the ability to
 define('view',['backbone'], function (Backbone) {
 
-    function _detachPlugins(view) {
-        if (view._pluginsAttached && view.detachPlugins) {
-            view.detachPlugins();
-        }
-    }
-
     return Backbone.View.extend({
         // Stores template.
         // template can be compiled and renedered via hook methods:
@@ -443,15 +437,15 @@ define('view',['backbone'], function (Backbone) {
         // Base view provides an extra option `template`.
         // this options is used to render view.
         constructor: function (options) {
+            var view = this;
             // extend constructor
             Backbone.View.apply(this, arguments);
-            // copy `template` option in the view.
-            if (options && typeof options.template !== "undefined") {
-                this.template = options.template;
-            }
-            if (options && typeof options.recycle !== "undefined") {
-                this.recycle = options.recycle;
-            }
+            // copy options in the view.
+            _.each(['template', 'recycle', 'attachPlugins', 'detachPlugins'], function (property) {
+                if (options && typeof options[property] !== "undefined") {
+                    view[property] = options[property];
+                }
+            });
         },
 
         // Render function provides enough flexibility to handle
@@ -506,19 +500,32 @@ define('view',['backbone'], function (Backbone) {
             if (this.onRendered) {
                 this.onRendered.apply(this, arguments);
             }
+            this._attachPlugins();
+            this._rendered = true;
+            return this;
+        },
+
+        // use this funciton to attach plugins.
+        // it checks you defined a callback and view is attached to DOM.
+        _attachPlugins: function () {
             if (this.isAttachedToDOM() && this.attachPlugins) {
-                _detachPlugins(this);
+                this._detachPlugins(this);
                 this.attachPlugins();
                 this._pluginsAttached = true;
             }
-            this._rendered = true;
-            return this;
+        },
+        // check detachPlugins is callable
+        _detachPlugins: function () {
+            if (this._pluginsAttached && this.detachPlugins) {
+                this.detachPlugins();
+                this._pluginsAttached = false;
+            }
         },
 
         // Use detach if you plan to reuse the view.
         // It removes view element from dom and call `detachPlugins` method.
         detach: function() {
-            _detachPlugins(this);
+            this._detachPlugins(this);
             if (this.$el && this.$el.detach) {
                 this.$el.detach();
             }
@@ -534,7 +541,7 @@ define('view',['backbone'], function (Backbone) {
             if (!force && this.recycle) {
                 return this.detach();
             }
-            _detachPlugins(this);
+            this._detachPlugins(this);
             // call parent remove
             Backbone.View.prototype.remove.apply(this, arguments);
             this._rendered = false;
@@ -622,6 +629,13 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
                     this._renderSubview(id);
                 }
 
+                if (this.subviews[id]._attachPlugins) {
+                    this.subviews[id]._attachPlugins();
+                } else if (this.subviews[id].attachPlugins) {
+                    // case there is no wrapper for attachPlugins
+                    this.subviews[id].attachPlugins();
+                }
+
                 return this;
             }
 
@@ -690,20 +704,8 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
                 $el.empty();
             }
 
-            // first element in list
-            if (options.index === 0) {
-                $el.prepend(itemview.el);
-                return ;
-            }
+            appendSubview(itemview, $el, options);
 
-            // an index is given
-            if (options.index) {
-                selector = '> :nth-child(' + (parseInt(options.index, 10)) + ')';
-                itemview.$el.insertAfter($el.find(selector));
-                return ;
-            }
-
-            $el.append(itemview.el);
             return ;
         },
 
@@ -773,13 +775,29 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
             });
         },
 
-        attachPlugins: function () {
+        _attachPlugins: function () {
             if (!this.isAttachedToDOM()) {
                 return ;
             }
+            _super._attachPlugins.apply(this, arguments);
             _.each(this.subviews, function attachPlugin (itemview, id) {
-                if (itemview.attachPlugins) {
+                if (itemview._attachPlugins) {
+                    itemview._attachPlugins();
+                } else if (itemview.attachPlugins) {
+                    // case of non Fossil views
                     itemview.attachPlugins();
+                }
+            });
+        },
+
+        _detachPlugins: function () {
+            var args = arguments;
+            _super._detachPlugins.apply(this, arguments);
+            return _.map(this.subviews, function invokeSubview (itemview, id) {
+                if (typeof itemview._detachPlugin === "function") {
+                    itemview._detachPlugin.apply(itemview, args);
+                } else if (typeof itemview.detachPlugin === "function") {
+                    itemview.detachPlugin.apply(itemview, args);
                 }
             });
         },
@@ -802,12 +820,23 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
             this.invokeSubviews(method);
         };
     });
-    // forward only
-    _.each(['detachPlugins'], function (method) {
-        Composite.prototype[method] = function () {
-            this.invokeSubviews(method);
-        };
-    });
+
+    function appendSubview(view, $el, options) {
+        // first element in list
+        if (options.index === 0) {
+            $el.prepend(view.el);
+            return ;
+        }
+
+        // an index is given
+        if (options.index) {
+            selector = '> :nth-child(' + (parseInt(options.index, 10)) + ')';
+            view.$el.insertAfter($el.find(selector));
+            return ;
+        }
+
+        $el.append(view.el);
+    }
 
     return Composite;
 });
