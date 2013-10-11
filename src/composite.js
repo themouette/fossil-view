@@ -120,7 +120,6 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
         //   be relative to a potential view's `selector` property.
         // * empty: empty element before appending the new one.
         _renderSubview: function (id, options) {
-            var selector;
             var itemview = this.getView(id);
             var renderArguments = _.tail(arguments, 2);
             options || (options = {});
@@ -266,6 +265,7 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
     });
 
     function appendSubview(view, $el, options) {
+        var selector;
         // first element in list
         if (options.index === 0) {
             $el.prepend(view.el);
