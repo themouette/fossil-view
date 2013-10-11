@@ -19,15 +19,15 @@ define(['backbone'], function (Backbone) {
         // Base view provides an extra option `template`.
         // this options is used to render view.
         constructor: function (options) {
+            var view = this;
             // extend constructor
             Backbone.View.apply(this, arguments);
-            // copy `template` option in the view.
-            if (options && typeof options.template !== "undefined") {
-                this.template = options.template;
-            }
-            if (options && typeof options.recycle !== "undefined") {
-                this.recycle = options.recycle;
-            }
+            // copy options in the view.
+            _.each(['template', 'recycle', 'attachPlugins', 'detachPlugins'], function (property) {
+                if (options && typeof options[property] !== "undefined") {
+                    view[property] = options[property];
+                }
+            });
         },
 
         // Render function provides enough flexibility to handle

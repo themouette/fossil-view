@@ -219,10 +219,11 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
             });
         },
 
-        attachPlugins: function () {
+        _attachPlugins: function () {
             if (!this.isAttachedToDOM()) {
                 return ;
             }
+            _super._attachPlugins.apply(this, arguments);
             _.each(this.subviews, function attachPlugin (itemview, id) {
                 if (itemview._attachPlugins) {
                     itemview._attachPlugins();
@@ -233,8 +234,9 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
             });
         },
 
-        detachPlugins: function () {
+        _detachPlugins: function () {
             var args = arguments;
+            _super._detachPlugins.apply(this, arguments);
             return _.map(this.subviews, function invokeSubview (itemview, id) {
                 if (typeof itemview._detachPlugin === "function") {
                     itemview._detachPlugin.apply(itemview, args);
