@@ -72,8 +72,8 @@ module.exports = function(grunt) {
             files: [
                 // copy dependencies for samples
                 {expand: true, cwd: 'bower_components', src: [
-                        'qunit/qunit.css',
-                        'qunit/qunit.js',
+                        'qunit/qunit/qunit.css',
+                        'qunit/qunit/qunit.js',
                         'underscore/underscore.js',
                         'backbone/backbone.js',
                         'jquery/jquery.js',
