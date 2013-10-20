@@ -10,7 +10,7 @@ define(['underscore', 'backbone', './composite', './view'], function (_, Backbon
             if (options && options.ItemView) {
                 this.ItemView = options.ItemView;
             }
-            _super.constructor.apply(this, arguments);
+            Composite.apply(this, arguments);
             this.bindCollectionEvents();
         },
 

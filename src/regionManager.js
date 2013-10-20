@@ -14,7 +14,7 @@ define(['underscore', 'backbone', './composite'], function (_, Backbone, Composi
             options || (options = {});
             this.regions = _.clone(this.regions);
             this.defineRegion(options.regions || this.regions);
-            _super.constructor.apply(this, arguments);
+            Composite.apply(this, arguments);
         },
 
         // define a new region

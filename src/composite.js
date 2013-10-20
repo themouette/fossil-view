@@ -32,7 +32,7 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
             View.apply(this, arguments);
             this.subviews = _.clone(this.subviews);
             _.each(['selector', 'manageRendering'], function (property) {
-                if (typeof options[property] !== "undefined") {
+                if (options && typeof options[property] !== "undefined") {
                     composite[property] = options[property];
                 }
             });
