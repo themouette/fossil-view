@@ -29,11 +29,11 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
 
         constructor: function (options) {
             var composite = this;
-            _super.constructor.apply(this, arguments);
+            View.apply(this, arguments);
             this.subviews = _.clone(this.subviews);
             _.each(['selector', 'manageRendering'], function (property) {
-                if (typeof composite.options[property] !== "undefined") {
-                    composite[property] = composite.options[property];
+                if (typeof options[property] !== "undefined") {
+                    composite[property] = options[property];
                 }
             });
         },
