@@ -514,11 +514,13 @@ define('view',['backbone'], function (Backbone) {
                 if (this.attachPlugins) {
                     this.attachPlugins();
                 }
+                this.trigger('on:plugins:attach', this);
                 this._pluginsAttached = true;
             }
         },
         // check detachPlugins is callable
         _detachPlugins: function () {
+            this.trigger('on:plugins:detach', this);
             if (this._pluginsAttached && this.detachPlugins) {
                 this.detachPlugins();
                 this._pluginsAttached = false;
@@ -588,11 +590,11 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
 
         constructor: function (options) {
             var composite = this;
-            _super.constructor.apply(this, arguments);
+            View.apply(this, arguments);
             this.subviews = _.clone(this.subviews);
             _.each(['selector', 'manageRendering'], function (property) {
-                if (typeof composite.options[property] !== "undefined") {
-                    composite[property] = composite.options[property];
+                if (options && typeof options[property] !== "undefined") {
+                    composite[property] = options[property];
                 }
             });
         },
@@ -856,7 +858,7 @@ define('collection',['underscore', 'backbone', './composite', './view'], functio
             if (options && options.ItemView) {
                 this.ItemView = options.ItemView;
             }
-            _super.constructor.apply(this, arguments);
+            Composite.apply(this, arguments);
             this.bindCollectionEvents();
         },
 
@@ -945,7 +947,7 @@ define('regionManager',['underscore', 'backbone', './composite'], function (_, B
             options || (options = {});
             this.regions = _.clone(this.regions);
             this.defineRegion(options.regions || this.regions);
-            _super.constructor.apply(this, arguments);
+            Composite.apply(this, arguments);
         },
 
         // define a new region
