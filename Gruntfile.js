@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build:release', ['requirejs:standalone', 'uglify', 'copy']);
 
-  grunt.registerTask('release', ['test', 'build:release']);
+  grunt.registerTask('release', ['build:release', 'test']);
   grunt.registerTask('default', ['release']);
 
 };
