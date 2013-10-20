@@ -67,6 +67,18 @@ module.exports = function(grunt) {
         dest: '<%= pkg.name %>.min.js'
       }
     },
+    compress: {
+        main: {
+            options: {
+                mode: 'gzip'
+            },
+            expand: true,
+            src: ['<%= pkg.name %>.min.js'],
+            cwd: './',
+            dest: './',
+            ext: '.gz.js'
+        }
+    },
     copy: {
         vendors: {
             files: [
@@ -111,6 +123,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   // Default task(s).
   grunt.registerTask('test', ['connect', 'qunit']);
@@ -118,7 +131,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build:dev', ['requirejs:standalone']);
   grunt.registerTask('dev', ['build:dev', 'concurrent:dev']);
 
-  grunt.registerTask('build:release', ['requirejs:standalone', 'uglify', 'copy']);
+  grunt.registerTask('build:release', ['requirejs:standalone', 'uglify', 'copy', 'compress:main']);
 
   grunt.registerTask('release', ['build:release', 'test']);
   grunt.registerTask('default', ['release']);
