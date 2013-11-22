@@ -102,8 +102,8 @@ define(['backbone'], function (Backbone) {
         },
         // check detachPlugins is callable
         _detachPlugins: function () {
-            this.trigger('on:plugins:detach', this);
             if (this._pluginsAttached && this.detachPlugins) {
+                this.trigger('on:plugins:detach', this);
                 this.detachPlugins();
                 this._pluginsAttached = false;
             }

@@ -520,8 +520,8 @@ define('view',['backbone'], function (Backbone) {
         },
         // check detachPlugins is callable
         _detachPlugins: function () {
-            this.trigger('on:plugins:detach', this);
             if (this._pluginsAttached && this.detachPlugins) {
+                this.trigger('on:plugins:detach', this);
                 this.detachPlugins();
                 this._pluginsAttached = false;
             }
@@ -686,6 +686,7 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
             options || (options = {});
 
             if (this.manageRendering && (!itemview._rendered || !itemview.recycle)) {
+                if (!renderArguments.length) {renderArguments = this.renderArguments;}
                 itemview.render.apply(itemview, renderArguments);
             }
 
@@ -760,6 +761,8 @@ define('composite',['underscore', 'backbone', './view'], function (_, Backbone, 
         // render template, then
         render: function () {
             this._detachAllSubviews();
+            // store extra argument for further subview rendering.
+            this.renderArguments = arguments;
             _super.render.apply(this, arguments);
             return this;
         },

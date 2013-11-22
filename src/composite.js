@@ -125,6 +125,7 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
             options || (options = {});
 
             if (this.manageRendering && (!itemview._rendered || !itemview.recycle)) {
+                if (!renderArguments.length) {renderArguments = this.renderArguments;}
                 itemview.render.apply(itemview, renderArguments);
             }
 
@@ -199,6 +200,8 @@ define(['underscore', 'backbone', './view'], function (_, Backbone, View) {
         // render template, then
         render: function () {
             this._detachAllSubviews();
+            // store extra argument for further subview rendering.
+            this.renderArguments = arguments;
             _super.render.apply(this, arguments);
             return this;
         },
