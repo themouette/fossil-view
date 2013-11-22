@@ -1,6 +1,6 @@
 {
   "name": "fossil-view",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "a set of Backbone base views",
   "main": "fossil-views.js",
   "directories": {
