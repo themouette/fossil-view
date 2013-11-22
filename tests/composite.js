@@ -217,4 +217,19 @@
 
         panel.render(0, "string", {a:1});
     });
+
+    test('render extra arguments for further subview rendering', function () {
+        expect(4);
+        var View = Backbone.View.extend({
+            render: function () {
+                equal(arguments.length, 3);
+                equal(arguments[0], 0);
+                equal(arguments[1], "string");
+                deepEqual(arguments[2], {a:1});
+            }
+        });
+        var panel = new Composite({});
+        panel.render(0, "string", {a:1});
+        panel.registerView(new View());
+    });
 })(Fossil.Views.Composite, Backbone);
